@@ -1,0 +1,10 @@
+1. Qué condiciones de carrera se podrían presentar?
+
+* Agregar un nuevo plano puede generar una condición de carrera, ya que la consulta y la posterior agregación no se
+realizan de forma atómica, esto mismo para que no se requiera el uso de bloques sincronizados.
+
+
+2. Cuales son las respectivas regiones críticas?
+
+* Realizar operaciones de actualización sobre un plano específico puede generar condiciones de carrera,
+ya que varios usuarios pueden consultar un plano y tratar de modificar sus características simultáneamente.
