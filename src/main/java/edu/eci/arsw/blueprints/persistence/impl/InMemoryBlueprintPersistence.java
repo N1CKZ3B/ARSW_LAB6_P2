@@ -49,6 +49,7 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
     }
 
+
     @Override
     public void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException {
         if (blueprints.containsKey(new Tuple<>(bp.getAuthor(),bp.getName()))){
@@ -79,12 +80,19 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
      * @return The blueprints
      */
     @Override
-    public Set<Blueprint> getAllBlueprints() {
+    public Set<Blueprint> getAllBlueprints() throws BlueprintNotFoundException{
         Set<Blueprint> blueprintsCall = new HashSet<>();
         blueprintsCall.addAll(blueprints.values());
         return blueprintsCall;
     }
 
-
+    @Override
+    public void deleteBlueprint(String author, String bpname) throws BlueprintNotFoundException {
+        Tuple tuple = new Tuple<>(author,bpname);
+        if( !blueprints.containsKey(tuple) ){
+            throw new BlueprintNotFoundException("The given blueprint not  exists: " + bpname);
+        }
+        blueprints.remove(tuple);
+    }
 
 }

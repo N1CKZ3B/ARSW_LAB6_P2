@@ -75,7 +75,7 @@ public class BlueprintAPIController {
 
     }
 
-    @RequestMapping(path = "/{author}/{bpname}", method = RequestMethod.PUT,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/{author}/{bpname}", method = RequestMethod.PUT)
     public ResponseEntity<?> putBlueprint(@PathVariable String author, @PathVariable String bpname, @RequestBody Blueprint bp) throws BlueprintNotFoundException {
         Blueprint blueprint = bps.getBlueprint(author, bpname);
         if(blueprint != null){
@@ -86,5 +86,16 @@ public class BlueprintAPIController {
         }
         return new ResponseEntity<>("Error",HttpStatus.BAD_REQUEST);
 
+    }
+
+    @DeleteMapping(path = "/{author}/{name}")
+    public ResponseEntity<?> DeleteBlueprint(@PathVariable ("author") String author, @PathVariable ("name") String name){
+        try {
+            bps.deleteBluePrintByAuthorAndName(author, name);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (BlueprintNotFoundException ex) {
+            Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(),HttpStatus.FORBIDDEN);
+        }
     }
 }
